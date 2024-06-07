@@ -1,0 +1,7 @@
+{
+  "name": "AppleDekhoApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
