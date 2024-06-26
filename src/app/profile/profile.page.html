@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-avatar slot="start">
+      <img src="assets/img/avatar.png" alt="Profile Picture" />
+    </ion-avatar>
+    <ion-card-header>
+      <ion-card-title>{{ userName }}</ion-card-title>
+      <ion-card-subtitle>{{ userEmail }}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Name</ion-label>
+      <ion-input
+        [(ngModel)]="userName"
+        placeholder="Enter your name"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input
+        [(ngModel)]="userEmail"
+        placeholder="Enter your email"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Bio</ion-label>
+      <ion-textarea
+        [(ngModel)]="userBio"
+        placeholder="Tell us about yourself"
+      ></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" (click)="saveProfile()">Save</ion-button>
+</ion-content>

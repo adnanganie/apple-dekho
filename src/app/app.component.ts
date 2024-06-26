@@ -32,6 +32,11 @@ import {
   warningSharp,
   bookmarkOutline,
   bookmarkSharp,
+  person,
+  informationCircle,
+  lockClosed,
+  documentText,
+  helpCircle,
 } from 'ionicons/icons';
 
 @Component({
@@ -60,8 +65,11 @@ import {
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Profile', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
+    { title: 'Profile', url: '/profile', icon: 'person' },
+    { title: 'About Us', url: '/about-us', icon: 'information-circle' },
+    { title: 'Privacy Policy', url: '/privacy-policy', icon: 'lock-closed' },
+    { title: 'Terms & Conditions', url: '/terms-conditions', icon: 'document-text' },
+    { title: 'Support', url: '/support', icon: 'help-circle' }
   ];
   public labels = [
     'Support',
@@ -86,6 +94,12 @@ export class AppComponent {
       warningSharp,
       bookmarkOutline,
       bookmarkSharp,
+      person,
+      informationCircle,
+      lockClosed,
+      documentText,
+      helpCircle
+
     });
   }
 }
