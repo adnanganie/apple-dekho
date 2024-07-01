@@ -1,13 +1,83 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>dashboard</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false">
+        <ion-icon name="menu"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-row class="counter-section">
+    <ion-col sizeLg="3" sizeMd="3" sizeSm="6" sizeXs="6" sizeXl="6">
+      <ion-card mode="ios">
+        <ion-item
+          [button]="true"
+          detail="false"
+          lines="none"
+          (click)="cardAction()"
+        >
+          <ion-icon
+            color="teritary"
+            name="cube-outline"
+            slot="start"
+          ></ion-icon>
+          <ion-label>
+            <strong>233</strong>
+            <p>5 Layer</p>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+    </ion-col>
+    <ion-col sizeLg="3" sizeMd="3" sizeSm="6" sizeXs="6" sizeXl="6">
+      <ion-card mode="ios">
+        <ion-item
+          [button]="true"
+          detail="false"
+          lines="none"
+          (click)="cardAction()"
+        >
+          <ion-icon color="primary" name="cube-outline" slot="start"></ion-icon>
+          <ion-label>
+            <strong>33</strong>
+            <p>4 Layer</p>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+    </ion-col>
+
+    <ion-col sizeLg="3" sizeMd="3" sizeSm="6" sizeXs="6" sizeXl="6">
+      <ion-card mode="ios">
+        <ion-item [button]="true" detail="false" lines="none">
+          <ion-icon color="success" name="cube-outline" slot="start"></ion-icon>
+          <ion-label>
+            <strong>33</strong>
+            <p>Medium</p>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+    </ion-col>
+
+    <ion-col sizeLg="3" sizeMd="3" sizeSm="6" sizeXs="6" sizeXl="6">
+      <ion-card mode="ios">
+        <ion-item [button]="true" detail="false" lines="none">
+          <ion-icon color="danger" name="cube-outline" slot="start"></ion-icon>
+          <ion-label>
+            <strong>12</strong>
+            <p>SF</p>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+    </ion-col>
+  </ion-row>
 </ion-content>
+<ion-fab slot="fixed" vertical="bottom" horizontal="end" (click)="fabAction()">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

@@ -1,36 +1,32 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding">
   <ion-card>
     <ion-card-header>
       <ion-card-title>Login</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-input
-        mode="md"
-        type="email"
-        label="Email"
-        fill="outline"
-        [(ngModel)]="email"
-        errorText="Invalid email"
-        label-placement="floating"
-        placeholder="Enter email address"
-      ></ion-input>
-      <br />
-      <ion-input
-        mode="md"
-        type="password"
-        label="Password"
-        fill="outline"
-        [(ngModel)]="password"
-        label-placement="floating"
-        placeholder="Enter password"
-      ></ion-input>
-      <br />
+      <form [formGroup]="loginForm">
+        <ion-input
+          mode="md"
+          type="email"
+          label="Email"
+          fill="outline"
+          formControlName="email"
+          errorText="Invalid email"
+          label-placement="floating"
+          placeholder="Enter email address"
+        ></ion-input>
+        <br />
+        <ion-input
+          mode="md"
+          type="password"
+          label="Password"
+          fill="outline"
+          formControlName="password"
+          label-placement="floating"
+          placeholder="Enter password"
+        ></ion-input>
+        <br />
+      </form>
       <ion-button shape="round" expand="full" (click)="login()"
         >Login</ion-button
       >
@@ -43,7 +39,7 @@
         <ion-icon name="logo-google" slot="start"></ion-icon>
         Sign in with Google
       </ion-button>
-      <ion-button expand="full" fill="clear" routerLink="/sign-up"
+      <ion-button expand="full" fill="clear" (click)="signUpAction()"
         >Sign Up</ion-button
       >
     </ion-card-content>

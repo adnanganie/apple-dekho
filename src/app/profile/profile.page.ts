@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
 import {
   IonContent,
   IonHeader,
@@ -15,7 +15,7 @@ import {
   IonCardTitle,
   IonCardSubtitle,
   IonList,
-} from '@ionic/angular/standalone';
+} from '@ionic/angular/standalone'
 
 @Component({
   selector: 'app-profile',
@@ -41,9 +41,9 @@ import {
   ],
 })
 export class ProfilePage implements OnInit {
-  userName: string = 'John Doe';
-  userEmail: string = 'johndoe@example.com';
-  userBio: string = 'Fruit enthusiast and farmer.';
+  userName: string = 'John Doe'
+  userEmail: string = 'johndoe@example.com'
+  userBio: string = 'Fruit enthusiast and farmer.'
 
   constructor() {}
 
@@ -53,7 +53,7 @@ export class ProfilePage implements OnInit {
       name: this.userName,
       email: this.userEmail,
       bio: this.userBio,
-    });
+    })
   }
   ngOnInit(): void {}
 }

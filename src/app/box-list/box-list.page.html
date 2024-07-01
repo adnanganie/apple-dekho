@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Boxes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <ion-list [inset]="true" *ngIf="!isLoading">
+    @for (box of boxes; track $index) {
+      <ion-item-sliding>
+        <ion-item [button]="true" detail="false" lines="full">
+          <ion-text slot="start" class="circular-container">{{
+            box.totalBoxes
+          }}</ion-text>
+          <ion-label>
+            <strong>{{ box.variety | titlecase }}</strong>
+            <h2>Layer:{{ box.grade }}</h2>
+            <ion-text>{{ box.khata | titlecase }}</ion-text>
+            <br />
+            <ion-note color="medium" class="ion-text-wrap" *ngIf="box.note">
+              {{ box.note }}
+            </ion-note>
+            <br />
+          </ion-label>
+          <div class="metadata-end-wrapper" slot="end">
+            <ion-note color="medium">{{ box.lotNumber }}</ion-note>
+          </div>
+        </ion-item>
+        <ion-item-options slot="end">
+          <ion-item-option color="tertiary">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color="danger" expandable="false">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    }
+  </ion-list>
+  <ion-list *ngIf="isLoading">
+    <ion-list-header>
+      <ion-skeleton-text
+        [animated]="true"
+        style="width: 80px"
+      ></ion-skeleton-text>
+    </ion-list-header>
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 80%"
+          ></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 60%"
+          ></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 30%"
+          ></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  @if (!isLoading && boxes.length === 0) {
+    <h4>No Data</h4>
+  }
+</ion-content>
+<ion-fab slot="fixed" vertical="bottom" horizontal="end" (click)="fabAction()">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

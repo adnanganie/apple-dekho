@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
 import {
   IonContent,
   IonHeader,
@@ -13,7 +13,7 @@ import {
   IonCard,
   IonCardTitle,
   IonCardContent,
-} from '@ionic/angular/standalone';
+} from '@ionic/angular/standalone'
 
 @Component({
   selector: 'app-support',
@@ -37,9 +37,9 @@ import {
   ],
 })
 export class SupportPage implements OnInit {
-  userName: string = '';
-  userEmail: string = '';
-  message: string = '';
+  userName: string = ''
+  userEmail: string = ''
+  message: string = ''
 
   constructor() {}
 
@@ -49,7 +49,7 @@ export class SupportPage implements OnInit {
       name: this.userName,
       email: this.userEmail,
       message: this.message,
-    });
+    })
   }
 
   ngOnInit() {}

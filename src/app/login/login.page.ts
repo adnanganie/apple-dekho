@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core'
+import { CommonModule } from '@angular/common'
 import {
-  FormBuilder,
   FormGroup,
-  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
   Validators,
-} from '@angular/forms';
+} from '@angular/forms'
 import {
   IonContent,
   IonHeader,
@@ -20,10 +20,12 @@ import {
   IonButton,
   IonIcon,
   IonInput,
-} from '@ionic/angular/standalone';
-import { AuthService } from './auth.service';
-import { addIcons } from 'ionicons';
-import { logoGoogle } from 'ionicons/icons';
+  MenuController,
+} from '@ionic/angular/standalone'
+import { AuthService } from '../services/auth.service'
+import { addIcons } from 'ionicons'
+import { logoGoogle } from 'ionicons/icons'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-login',
@@ -45,34 +47,58 @@ import { logoGoogle } from 'ionicons/icons';
     IonTitle,
     IonToolbar,
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class LoginPage implements OnInit {
-  loginForm!: FormGroup;
-  private formBuilder = Inject(FormBuilder);
-  //private authService = Inject(AuthService);
-  email: string | null = null;
-  password: string | null = null;
+  loginForm!: FormGroup
+  #formBuilder = inject(UntypedFormBuilder)
+  #menuController = inject(MenuController)
+  #router = inject(Router)
+  #authService = inject(AuthService)
 
-  constructor(private authService: AuthService) {
-    addIcons({ logoGoogle });
-  }
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
+  constructor() {
+    addIcons({ logoGoogle })
+    this.loginForm = this.#formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
+      password: ['', Validators.required],
+    })
+  }
+  ngOnInit(): void {
+    console.log('')
+  }
+
+  /**
+   * Lifecycle hook called when the view has entered.
+   * Disable the navigation menu
+   */
+  ionViewWillEnter() {
+    this.#menuController.enable(false)
   }
 
   login() {
     if (this.loginForm?.valid) {
-      const { email, password } = this.loginForm.value;
-      this.authService.login(email, password);
+      const { email, password } = this.loginForm.value
+      this.#authService.login(email, password).subscribe({
+        next: (res) => {
+          this.#router.navigateByUrl('dashboard', { replaceUrl: true })
+          console.log(res)
+        },
+        error: (error) => {
+          console.log(error)
+        },
+      })
     }
   }
 
+  /**
+   * Navigate to the sign-up page
+   */
+  signUpAction() {
+    this.#router.navigateByUrl('sign-up')
+  }
+
   signInWithGoogle() {
-    this.authService.signInWithGoogle();
+    this.#authService.signInWithGoogle()
   }
 }

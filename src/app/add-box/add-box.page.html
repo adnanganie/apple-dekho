@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Box</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="myForm">
+    <ion-select
+      formControlName="fruit"
+      mode="md"
+      fill="outline"
+      label="Select Fruit"
+      label-placement="floating"
+      interface="popover"
+    >
+      <ion-select-option value="apple">Apple</ion-select-option>
+      <ion-select-option value="cherry">Cherry</ion-select-option>
+      <ion-select-option value="pear">Pear</ion-select-option>
+    </ion-select>
+    <br />
+    <ion-select
+      formControlName="variety"
+      mode="md"
+      fill="outline"
+      label="Select Variety"
+      label-placement="floating"
+      interface="popover"
+      (ionChange)="handleChange($event)"
+      (ionCancel)="handleCancel()"
+      (ionDismiss)="handleDismiss()"
+    >
+      <ion-select-option value="red delicious">Red Delicious</ion-select-option>
+      <ion-select-option value="delicious">Delicious</ion-select-option>
+      <ion-select-option value="other">Other</ion-select-option>
+    </ion-select>
+    <br />
+    <ion-select
+      formControlName="grade"
+      mode="md"
+      fill="outline"
+      label="Select Grade"
+      label-placement="floating"
+      interface="popover"
+      (ionChange)="handleChange($event)"
+      (ionCancel)="handleCancel()"
+      (ionDismiss)="handleDismiss()"
+    >
+      <ion-select-option value="5">5 Layer</ion-select-option>
+      <ion-select-option value="4">4 Layer</ion-select-option>
+      <ion-select-option value="3">3 Layer</ion-select-option>
+      <ion-select-option value="2">3 Layer</ion-select-option>
+    </ion-select>
+    <br />
+    <ion-input
+      formControlName="khata"
+      mode="md"
+      type="text"
+      label="Khata"
+      fill="outline"
+      errorText="Required"
+      label-placement="floating"
+      placeholder="Enter khata"
+    ></ion-input>
+    <br />
+    <ion-input
+      formControlName="lotNumber"
+      mode="md"
+      type="text"
+      label="Lot Number"
+      fill="outline"
+      errorText="Required"
+      label-placement="floating"
+      placeholder="Enter lot number"
+    ></ion-input>
+    <br />
+    <ion-input
+      formControlName="totalBoxes"
+      mode="md"
+      type="number"
+      label="Total"
+      fill="outline"
+      errorText="Required"
+      label-placement="floating"
+      placeholder="Enter total"
+    ></ion-input>
+    <br />
+    <ion-textarea
+      mode="md"
+      label="Note"
+      fill="outline"
+      maxlength="100"
+      [counter]="true"
+      [autoGrow]="true"
+      formControlName="note"
+      labelPlacement="floating"
+      placeholder="Enter note"
+    ></ion-textarea>
+    <br />
+    <ion-button shape="round" expand="block" (click)="saveButtonAction()"
+      >Save</ion-button
+    >
+  </form>
+</ion-content>

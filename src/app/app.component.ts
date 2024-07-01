@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common'
+import { Component } from '@angular/core'
+import { Router, RouterLink, RouterLinkActive } from '@angular/router'
 import {
   IonApp,
   IonSplitPane,
@@ -15,8 +15,9 @@ import {
   IonLabel,
   IonRouterOutlet,
   IonRouterLink,
-} from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
+  Platform,
+} from '@ionic/angular/standalone'
+import { addIcons } from 'ionicons'
 import {
   mailOutline,
   mailSharp,
@@ -37,7 +38,15 @@ import {
   lockClosed,
   documentText,
   helpCircle,
-} from 'ionicons/icons';
+  helpCircleOutline,
+  documentTextOutline,
+  personOutline,
+  informationCircleOutline,
+  lockClosedOutline,
+} from 'ionicons/icons'
+import { AuthService } from './services/auth.service'
+import { Storage } from '@ionic/storage-angular'
+import { StorageService } from './services/storage.service'
 
 @Component({
   selector: 'app-root',
@@ -68,17 +77,28 @@ export class AppComponent {
     { title: 'Profile', url: '/profile', icon: 'person' },
     { title: 'About Us', url: '/about-us', icon: 'information-circle' },
     { title: 'Privacy Policy', url: '/privacy-policy', icon: 'lock-closed' },
-    { title: 'Terms & Conditions', url: '/terms-conditions', icon: 'document-text' },
-    { title: 'Support', url: '/support', icon: 'help-circle' }
-  ];
+    {
+      title: 'Terms & Conditions',
+      url: '/terms-conditions',
+      icon: 'document-text',
+    },
+    { title: 'Support', url: '/support', icon: 'help-circle' },
+  ]
   public labels = [
     'Support',
     'Contact Us',
     'About Us',
     'Privacy Policy',
     'Terms & Conditions',
-  ];
-  constructor() {
+  ]
+
+  constructor(
+    private storage: Storage,
+    private platform: Platform,
+    private storageService: StorageService,
+    private authService: AuthService,
+    private router: Router
+  ) {
     addIcons({
       mailOutline,
       mailSharp,
@@ -98,8 +118,34 @@ export class AppComponent {
       informationCircle,
       lockClosed,
       documentText,
-      helpCircle
+      helpCircle,
+      helpCircleOutline,
+      documentTextOutline,
+      personOutline,
+      informationCircleOutline,
+      lockClosedOutline,
+    })
+    this.initializeApp()
+  }
 
-    });
+  /**
+   * Initialize the app
+   */
+  async initializeApp() {
+    await this.storage.create()
+    this.platform.ready().then(async () => {
+      const user = await this.storageService.get('user')
+      if (user) {
+        this.authService.userSignal.set(user)
+      }
+      this.authService.isAuthenticated().subscribe((isAuthenticated) => {
+        console.log('isAuthenticated', isAuthenticated)
+        if (!isAuthenticated) {
+          this.router.navigateByUrl('login')
+        } else {
+          this.router.navigateByUrl('dashboard')
+        }
+      })
+    })
   }
 }

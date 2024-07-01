@@ -1,13 +1,48 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>sign-up</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sign Up</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">sign-up</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="signupForm">
+    <ion-input
+      mode="md"
+      type="text"
+      label="Username"
+      fill="outline"
+      formControlName="userName"
+      errorText="Invalid Username"
+      label-placement="floating"
+      placeholder="Enter username"
+    ></ion-input>
+    <br />
+    <ion-input
+      mode="md"
+      type="email"
+      label="Email"
+      fill="outline"
+      formControlName="email"
+      errorText="Invalid email"
+      label-placement="floating"
+      placeholder="Enter email address"
+    ></ion-input>
+    <br />
+    <ion-input
+      mode="md"
+      type="password"
+      label="Password"
+      formControlName="password"
+      fill="outline"
+      label-placement="floating"
+      placeholder="Enter password"
+    ></ion-input>
+    <br />
+  </form>
+  <ion-button shape="round" expand="full" (click)="signupAction()"
+    >Sign Up</ion-button
+  >
 </ion-content>
