@@ -9,7 +9,8 @@ import {
   docData,
   updateDoc,
 } from '@angular/fire/firestore'
-import { Observable } from 'rxjs'
+import { Observable, pipe } from 'rxjs'
+import { map } from 'rxjs/operators'
 import { AuthService } from './auth.service'
 import { Box } from '../models/box.model'
 
@@ -92,5 +93,32 @@ export class BoxService {
       lotNumber: box.lotNumber,
       totalBoxes: box.totalBoxes,
     })
+  }
+
+  getTotalBoxesAndGrades(): Observable<{
+    totalBoxes: number
+    totalGrade5: number
+    totalGrade4: number
+  }> {
+    if (!this.userId) {
+      throw new Error('User not authenticated')
+    }
+    const boxesRef = collection(this.firestore, `users/${this.userId}/boxes`)
+    const data = collectionData(boxesRef, { idField: 'id' }) as Observable<
+      Box[]
+    >
+    return data.pipe(
+      map((boxes) => {
+        console.log('Boxes Data:', boxes)
+        const totalBoxes = boxes.reduce((sum, box) => sum + box.totalBoxes, 0)
+        const totalGrade5 = boxes
+          .filter((box) => box.grade === '5')
+          .reduce((sum, box) => sum + box.totalBoxes, 0)
+        const totalGrade4 = boxes
+          .filter((box) => box.grade === '4')
+          .reduce((sum, box) => sum + box.totalBoxes, 0)
+        return { totalBoxes, totalGrade5, totalGrade4 }
+      })
+    )
   }
 }

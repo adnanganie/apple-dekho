@@ -23,12 +23,17 @@ import {
   IonListHeader,
   IonSkeletonText,
   IonThumbnail,
+  IonRefresher,
+  IonRefresherContent,
+  RefresherCustomEvent,
 } from '@ionic/angular/standalone'
 import { addIcons } from 'ionicons'
 import { add, chevronForward, createOutline, trash } from 'ionicons/icons'
 import { Router } from '@angular/router'
 import { BoxService } from '../services/box.service'
 import { Box } from '../models/box.model'
+import { SkeletonViewComponent } from '../components/skeleton-view/skeleton-view.component'
+import { EmptyViewComponent } from '../components/empty-view/empty-view.component'
 
 @Component({
   selector: 'app-box-list',
@@ -36,6 +41,8 @@ import { Box } from '../models/box.model'
   styleUrls: ['./box-list.page.scss'],
   standalone: true,
   imports: [
+    IonRefresherContent,
+    IonRefresher,
     IonSkeletonText,
     IonListHeader,
     IonItemOption,
@@ -59,6 +66,8 @@ import { Box } from '../models/box.model'
     FormsModule,
     IonMenuButton,
     IonThumbnail,
+    EmptyViewComponent,
+    SkeletonViewComponent,
   ],
 })
 export class BoxListPage implements OnInit {
@@ -77,24 +86,24 @@ export class BoxListPage implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchBoxList()
+    this.fetchBoxList(() => {})
   }
 
   /**
    * API calls for fetching box list
    */
-  fetchBoxList() {
+  fetchBoxList(callback: () => void) {
     this.isLoading = true
     this.boxService.getBoxes().subscribe({
       next: (data: Box[]) => {
         this.boxes = data
-        console.log(data)
-
         this.isLoading = false
+        callback()
       },
       error: (error) => {
         this.isLoading = false
         console.error('Error fetching boxes:', error)
+        callback()
       },
     })
   }
@@ -104,5 +113,14 @@ export class BoxListPage implements OnInit {
    */
   fabAction() {
     this.#router.navigateByUrl('add-box')
+  }
+
+  /**
+   * Fetch data from server
+   */
+  doRefresh(event?: RefresherCustomEvent) {
+    this.fetchBoxList(() => {
+      event?.target?.complete()
+    })
   }
 }

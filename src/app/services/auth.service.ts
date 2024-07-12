@@ -21,6 +21,13 @@ import { Observable, from } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { StorageService } from './storage.service'
 import { User } from '../models/user.model'
+import {
+  Firestore,
+  addDoc,
+  collection,
+  doc,
+  setDoc,
+} from '@angular/fire/firestore'
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +40,8 @@ export class AuthService {
 
   #storageService = inject(StorageService)
   private firebaseAuth = inject(Auth)
+  private firestore = inject(Firestore)
+
   private googleAuthProvider = new GoogleAuthProvider()
 
   /**
@@ -67,6 +76,7 @@ export class AuthService {
         }
         this.userSignal.set(userInfo)
         this.#storageService.set('user', userInfo)
+        this.saveUserInfo(userInfo)
         return userCredential
       })
     )
@@ -89,6 +99,11 @@ export class AuthService {
       updateProfile(response.user, { displayName: userName })
     )
     return from(promise)
+  }
+
+  signInWithGoogle2(): Observable<any> {
+    const provider = new GoogleAuthProvider()
+    return from(signInWithPopup(this.firebaseAuth, provider).then(() => {}))
   }
 
   signInWithGoogle() {
@@ -126,9 +141,12 @@ export class AuthService {
     })
   }
 
-  logOut() {
-    signOut(this.firebaseAuth)
-      .then(() => {})
-      .catch((err) => console.log(err))
+  async logOut() {
+    await signOut(this.firebaseAuth)
+  }
+
+  private async saveUserInfo(user: User): Promise<void> {
+    const userRef = doc(this.firestore, `users/${user.uid}`)
+    await setDoc(userRef, user, { merge: true })
   }
 }

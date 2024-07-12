@@ -26,6 +26,9 @@ import { AuthService } from '../services/auth.service'
 import { addIcons } from 'ionicons'
 import { logoGoogle } from 'ionicons/icons'
 import { Router } from '@angular/router'
+import { ToastService } from '../utils/toast.service'
+import { LoadingService } from '../utils/loading.service'
+import { Enums } from '../utils/enums'
 
 @Component({
   selector: 'app-login',
@@ -54,8 +57,10 @@ export class LoginPage implements OnInit {
   loginForm!: FormGroup
   #formBuilder = inject(UntypedFormBuilder)
   #menuController = inject(MenuController)
-  #router = inject(Router)
   #authService = inject(AuthService)
+  toastService = inject(ToastService)
+  loadingService = inject(LoadingService)
+  #router = inject(Router)
 
   constructor() {
     addIcons({ logoGoogle })
@@ -76,16 +81,20 @@ export class LoginPage implements OnInit {
     this.#menuController.enable(false)
   }
 
-  login() {
+  async login() {
     if (this.loginForm?.valid) {
       const { email, password } = this.loginForm.value
+      await this.loadingService.presentLoading('Logging in...')
       this.#authService.login(email, password).subscribe({
-        next: (res) => {
+        next: () => {
           this.#router.navigateByUrl('dashboard', { replaceUrl: true })
-          console.log(res)
         },
         error: (error) => {
-          console.log(error)
+          this.toastService.showToast('Login failed', Enums.ToastType.Error)
+          console.error(error)
+        },
+        complete: async () => {
+          await this.loadingService.dismissLoading()
         },
       })
     }
@@ -98,7 +107,23 @@ export class LoginPage implements OnInit {
     this.#router.navigateByUrl('sign-up')
   }
 
-  signInWithGoogle() {
-    this.#authService.signInWithGoogle()
+  async signInWithGoogle() {
+    await this.loadingService.presentLoading('Signing in with Google...')
+    this.#authService.signInWithGoogle2().subscribe({
+      next: () => {
+        this.#router.navigateByUrl('dashboard', { replaceUrl: true })
+        this.toastService.showToast('Google sign-in successful')
+      },
+      error: (error) => {
+        this.toastService.showToast(
+          'Google sign-in failed',
+          Enums.ToastType.Error
+        )
+        console.error(error)
+      },
+      complete: async () => {
+        await this.loadingService.dismissLoading()
+      },
+    })
   }
 }

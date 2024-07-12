@@ -14,6 +14,23 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-row class="counter-section">
+    <ion-col>
+      <ion-card mode="ios">
+        <ion-item
+          [button]="true"
+          detail="false"
+          lines="none"
+          (click)="cardAction()"
+        >
+          <ion-text slot="start">Total</ion-text>
+          <ion-label class="ion-text-end">
+            <strong>{{ totalBoxes }}</strong>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+  <ion-row class="counter-section">
     <ion-col sizeLg="3" sizeMd="3" sizeSm="6" sizeXs="6" sizeXl="6">
       <ion-card mode="ios">
         <ion-item
@@ -28,7 +45,7 @@
             slot="start"
           ></ion-icon>
           <ion-label>
-            <strong>233</strong>
+            <strong>{{ totalGrade5 }}</strong>
             <p>5 Layer</p>
           </ion-label>
         </ion-item>
@@ -44,7 +61,7 @@
         >
           <ion-icon color="primary" name="cube-outline" slot="start"></ion-icon>
           <ion-label>
-            <strong>33</strong>
+            <strong>{{ totalGrade4 }}</strong>
             <p>4 Layer</p>
           </ion-label>
         </ion-item>

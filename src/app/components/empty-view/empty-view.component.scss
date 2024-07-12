@@ -1,0 +1,31 @@
+.empty-view-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: fit-content;
+  text-align: center;
+}
+
+.empty-view-container-non-centered {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: fit-content;
+  text-align: center;
+}
+
+.empty-view-image {
+  width: 100px;
+  height: 100px;
+  color: var(--ion-color-tertiary);
+}
+
+.empty-view-title {
+  margin: 16px;
+  font-size: 22px;
+  line-height: 32px;
+}
